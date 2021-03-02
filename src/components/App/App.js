@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import Article from "../Article/Article";
 import Header from "../Header/Header";
+import Resize from "../Resize/Resize";
+import Title from "../Title/Title";
 
 function App() {
   const [counter, setCounter] = useState(0);
@@ -47,8 +49,10 @@ function App() {
   return (
     <div className="App">
       <Header/>
+      <Title title="Homepage" />
       {list}
       <button onClick={increment}>{counter}</button>
+      <Resize/>
     </div>
   );
 }
