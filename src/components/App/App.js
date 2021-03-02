@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Article from "../Article/Article";
 import Header from "../Header/Header";
@@ -6,26 +6,13 @@ import Header from "../Header/Header";
 function App() {
   const [counter, setCounter] = useState(0);
   const [selectedArticles, setSelectedArticles] = useState([]);
-  const articles = [
-    {
-      title: "Article 1",
-      id: 1,
-      category: "News",
-      published: false,
-    },
-    {
-      title: "Article 2",
-      id: 2,
-      category: "News",
-      published: true,
-    },
-    {
-      title: "Article 3",
-      id: 3,
-      category: "Blog",
-      published: false,
-    }
-  ];
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/articles')
+      .then(response => response.json())
+      .then(json => setArticles(json));
+  }, []);
 
   function increment() {
     setCounter(prevState => prevState + 1);
