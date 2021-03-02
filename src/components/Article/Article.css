@@ -4,3 +4,7 @@
   padding: 20px;
   background-color: antiquewhite;
 }
+
+.Article__title {
+  font-weight: bold;
+}

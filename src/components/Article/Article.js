@@ -6,7 +6,7 @@ function Article(props) {
 
   return (
     <div className="Article">
-      <div>{title}</div>
+      <div className="Article__title">{title}</div>
       <div>{category}</div>
       <div>{published ? 'Published' : 'Draft'}</div>
     </div>
