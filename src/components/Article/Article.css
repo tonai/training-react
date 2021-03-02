@@ -5,6 +5,10 @@
   background-color: antiquewhite;
 }
 
+.Article--selected {
+  background-color: aqua;
+}
+
 .Article__title {
   font-weight: bold;
 }
