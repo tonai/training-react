@@ -7,7 +7,7 @@ function useArticles() {
   useEffect(() => {
     getArticles().then(json => setArticles(json));
   }, []);
-  return articles;
+  return [articles, setArticles];
 }
 
 export default useArticles;

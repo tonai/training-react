@@ -4,11 +4,16 @@ import { Link } from "react-router-dom";
 import "./Article.css";
 
 function Article(props) {
-  const { article, categoriesMap, index, selected, toggleArticle } = props;
+  const { article, categoriesMap, handleDeleteArticle, index, selected, toggleArticle } = props;
   const { id, title, category: categoryId, published } = article;
 
   function handleClick() {
     toggleArticle(index);
+  }
+
+  function handleDelete(event) {
+    event.stopPropagation();
+    handleDeleteArticle(id);
   }
 
   const category = categoriesMap.get(categoryId);
@@ -23,6 +28,9 @@ function Article(props) {
       <div>{published ? 'Published' : 'Draft'}</div>
       <div>
         <Link to={`/article/${id}`}>Edit</Link>
+      </div>
+      <div>
+        <button onClick={handleDelete}>Delete</button>
       </div>
     </div>
   );

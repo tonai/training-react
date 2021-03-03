@@ -5,6 +5,8 @@ import useCategories from "../../hooks/useCategories";
 
 import { createArticles, editArticles } from "../../services/articles";
 
+import Title from "../Title/Title";
+
 function ArticlePage(props) {
   const id = props.match.params.id;
   const history = useHistory();
@@ -33,6 +35,7 @@ function ArticlePage(props) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Title title={id ? `Edit article (${id})` : 'Create new article'} />
       <div>
         <label>
           Title:

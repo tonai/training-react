@@ -1,4 +1,4 @@
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
 import ArticlePage from "../ArticlePage/ArticlePage";
 import ArticlesPage from "../ArticlesPage/ArticlesPage";
@@ -8,9 +8,12 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Route path="/" exact component={ArticlesPage} />
-      <Route path="/article" exact component={ArticlePage} />
-      <Route path="/article/:id" exact component={ArticlePage} />
+      <Switch>
+        <Route path="/" exact component={ArticlesPage} />
+        <Route path="/article" exact component={ArticlePage} />
+        <Route path="/article/:id" exact component={ArticlePage} />
+        <Redirect to="/" />
+      </Switch>
     </BrowserRouter>
   );
 }

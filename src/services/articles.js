@@ -10,11 +10,17 @@ export function getArticle(id) {
   );
 }
 
+export function deleteArticle(id) {
+  return fetch(`http://localhost:3001/articles/${id}`, {
+    method: "DELETE",
+  }).then((response) => response.json());
+}
+
 export function editArticles(article) {
   return fetch(`http://localhost:3001/articles/${article.id}`, {
     body: JSON.stringify({
       ...article,
-      category: Number(article.category)
+      category: Number(article.category),
     }),
     method: "PUT",
     headers: {
@@ -27,7 +33,7 @@ export function createArticles(article) {
   return fetch("http://localhost:3001/articles", {
     body: JSON.stringify({
       ...article,
-      category: Number(article.category)
+      category: Number(article.category),
     }),
     method: "POST",
     headers: {

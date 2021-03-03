@@ -9,6 +9,7 @@ function useArticle(id) {
     published: false,
   });
   useEffect(() => {
+    console.log(id);
     if (id) {
       getArticle(id).then(article => setArticle(article));
     }

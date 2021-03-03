@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import useArticles from "../../hooks/useArticles";
 import useCategories from "../../hooks/useCategories";
 
+import { deleteArticle, getArticles } from "../../services/articles";
+
 import Article from "../Article/Article";
 import Container from "../Container/Container";
 import Filters from "../Filters/Filters";
@@ -15,7 +17,7 @@ function ArticlesPage() {
   const [selectedArticles, setSelectedArticles] = useState([]);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const articles = useArticles();
+  const [articles, setArticles] = useArticles();
   const categories = useCategories();
 
   const categoriesMap = new Map();
@@ -43,21 +45,40 @@ function ArticlesPage() {
     });
   }
 
+  function handleDeleteArticle(id) {
+    // 1
+    // deleteArticle(id)
+    //   .then(() => getArticles())
+    //   .then(articles => setArticles(articles));
+
+    // 2
+    // deleteArticle(id)
+    //   .then(() => setArticles(articles.filter(article => article.id !== id)));
+
+    // 3
+    setArticles(articles.filter((article) => article.id !== id));
+    deleteArticle(id).catch(() =>
+      getArticles().then((articles) => setArticles(articles))
+    );
+  }
+
   const filteredArticles = articles
-    .filter(article => article.title.includes(title))
-    .filter(article => category === '' || article.category === Number(category));
-    
-  const list = filteredArticles
-    .map((article, i) => (
-      <Article
-        article={article}
-        categoriesMap={categoriesMap}
-        index={i}
-        key={article.id}
-        selected={selectedArticles[i]}
-        toggleArticle={toggleArticle}
-      />
-    ));
+    .filter((article) => article.title.includes(title))
+    .filter(
+      (article) => category === "" || article.category === Number(category)
+    );
+
+  const list = filteredArticles.map((article, i) => (
+    <Article
+      article={article}
+      categoriesMap={categoriesMap}
+      handleDeleteArticle={handleDeleteArticle}
+      index={i}
+      key={article.id}
+      selected={selectedArticles[i]}
+      toggleArticle={toggleArticle}
+    />
+  ));
 
   return (
     <div className="App">
@@ -76,9 +97,7 @@ function ArticlesPage() {
       <Container>
         <button onClick={increment}>{counter}</button>
       </Container>
-      <Container>
-        {counter % 2 === 0 && (<Resize />)}
-      </Container>
+      <Container>{counter % 2 === 0 && <Resize />}</Container>
     </div>
   );
 }
