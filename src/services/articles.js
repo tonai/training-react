@@ -4,6 +4,25 @@ export function getArticles() {
   );
 }
 
+export function getArticle(id) {
+  return fetch(`http://localhost:3001/articles/${id}`).then((response) =>
+    response.json()
+  );
+}
+
+export function editArticles(article) {
+  return fetch(`http://localhost:3001/articles/${article.id}`, {
+    body: JSON.stringify({
+      ...article,
+      category: Number(article.category)
+    }),
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((response) => response.json());
+}
+
 export function createArticles(article) {
   return fetch("http://localhost:3001/articles", {
     body: JSON.stringify({

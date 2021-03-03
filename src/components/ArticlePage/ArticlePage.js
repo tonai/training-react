@@ -5,7 +5,8 @@ import useCategories from "../../hooks/useCategories";
 
 import { createArticles } from "../../services/articles";
 
-function ArticlePage() {
+function ArticlePage(props) {
+  const id = props.match.params.id;
   const history = useHistory();
   const [article, setArticle] = useState({
     title: "",
@@ -13,6 +14,7 @@ function ArticlePage() {
     published: false,
   });
   const categories = useCategories();
+  console.log(id);
 
   function handleChange(event) {
     // const clone = {...article};
