@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import useArticles from "../../hooks/useArticles";
 import useCategories from "../../hooks/useCategories";
@@ -6,7 +7,6 @@ import useCategories from "../../hooks/useCategories";
 import Article from "../Article/Article";
 import Container from "../Container/Container";
 import Filters from "../Filters/Filters";
-import Header from "../Header/Header";
 import Resize from "../Resize/Resize";
 import Title from "../Title/Title";
 
@@ -61,8 +61,8 @@ function ArticlesPage() {
 
   return (
     <div className="App">
-      <Header />
       <Title title="Homepage" />
+      <Link to="/article">Create new article</Link>
       <Container>
         <Filters
           categories={categories}
