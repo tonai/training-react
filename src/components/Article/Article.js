@@ -2,12 +2,14 @@
 import "./Article.css";
 
 function Article(props) {
-  const { article, index, selected, toggleArticle } = props;
-  const { title, category, published } = article;
+  const { article, categoriesMap, index, selected, toggleArticle } = props;
+  const { title, category: categoryId, published } = article;
 
   function handleClick() {
     toggleArticle(index);
   }
+
+  const category = categoriesMap.get(categoryId);
 
   return (
     <div
@@ -15,7 +17,7 @@ function Article(props) {
       onClick={handleClick}
     >
       <div className="Article__title">{title}</div>
-      <div>{category}</div>
+      <div>{category?.title}</div>
       <div>{published ? 'Published' : 'Draft'}</div>
     </div>
   );

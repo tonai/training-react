@@ -1,5 +1,5 @@
 function Filters(props) {
-  const { category, title, setCategory, setTitle } = props;
+  const { categories, category, title, setCategory, setTitle } = props;
 
   function handleTitleChange(event) {
     setTitle(event.target.value);
@@ -20,8 +20,11 @@ function Filters(props) {
         onChange={handleCategoryChange}
       >
         <option value=""></option>
-        <option value="1">1</option>
-        <option value="2">2</option>
+        {categories.map(category => (
+          <option key={category.id} value={category.id}>
+            {category.title}
+          </option>
+        ))}
       </select>
     </div>
   );
