@@ -3,6 +3,7 @@ import { useState } from "react";
 import useArticles from "../../hooks/useArticles";
 
 import Article from "../Article/Article";
+import Container from "../Container/Container";
 import Filters from "../Filters/Filters";
 import Header from "../Header/Header";
 import Resize from "../Resize/Resize";
@@ -12,6 +13,7 @@ function App() {
   const [counter, setCounter] = useState(0);
   const [selectedArticles, setSelectedArticles] = useState([]);
   const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
   const articles = useArticles();
 
   function increment() {
@@ -34,8 +36,11 @@ function App() {
     });
   }
 
-  const list = articles
+  const filteredArticles = articles
     .filter(article => article.title.includes(title))
+    .filter(article => category === '' || article.category === Number(category));
+    
+  const list = filteredArticles
     .map((article, i) => (
       <Article
         article={article}
@@ -50,10 +55,21 @@ function App() {
     <div className="App">
       <Header />
       <Title title="Homepage" />
-      <Filters title={title} setTitle={setTitle} />
-      {list}
-      <button onClick={increment}>{counter}</button>
-      <Resize />
+      <Container>
+        <Filters
+          category={category}
+          title={title}
+          setCategory={setCategory}
+          setTitle={setTitle}
+        />
+        {list}
+      </Container>
+      <Container>
+        <button onClick={increment}>{counter}</button>
+      </Container>
+      <Container>
+        <Resize />
+      </Container>
     </div>
   );
 }
