@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import useArticles from "../../hooks/useArticles";
 
 import Article from "../Article/Article";
 import Header from "../Header/Header";
@@ -8,13 +10,7 @@ import Title from "../Title/Title";
 function App() {
   const [counter, setCounter] = useState(0);
   const [selectedArticles, setSelectedArticles] = useState([]);
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:3001/articles')
-      .then(response => response.json())
-      .then(json => setArticles(json));
-  }, []);
+  const articles = useArticles();
 
   function increment() {
     setCounter(prevState => prevState + 1);
