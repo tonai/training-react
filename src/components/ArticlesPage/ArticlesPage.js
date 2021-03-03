@@ -77,7 +77,7 @@ function ArticlesPage() {
         <button onClick={increment}>{counter}</button>
       </Container>
       <Container>
-        <Resize />
+        {counter % 2 === 0 && (<Resize />)}
       </Container>
     </div>
   );

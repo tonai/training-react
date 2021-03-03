@@ -1,20 +1,15 @@
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import useArticle from "../../hooks/useArticle";
 import useCategories from "../../hooks/useCategories";
 
-import { createArticles } from "../../services/articles";
+import { createArticles, editArticles } from "../../services/articles";
 
 function ArticlePage(props) {
   const id = props.match.params.id;
   const history = useHistory();
-  const [article, setArticle] = useState({
-    title: "",
-    category: "1",
-    published: false,
-  });
   const categories = useCategories();
-  console.log(id);
+  const [article, setArticle] = useArticle(id);
 
   function handleChange(event) {
     // const clone = {...article};
@@ -29,7 +24,11 @@ function ArticlePage(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    createArticles(article).then(() => history.push("/"));
+    if (id) {
+      editArticles(article).then(() => history.push("/"));
+    } else {
+      createArticles(article).then(() => history.push("/"));
+    }
   }
 
   return (
