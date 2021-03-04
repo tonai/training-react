@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 import categoriescontext from "../../contexts/categories";
+import i18ncontext from "../../contexts/i18n";
 
 import useArticles from "../../hooks/useArticles";
 
@@ -20,6 +21,7 @@ function ArticlesPage() {
   const [category, setCategory] = useState("");
   const [articles, setArticles] = useArticles();
   const categories = useContext(categoriescontext);
+  const t = useContext(i18ncontext);
 
   const categoriesMap = new Map();
   for (let category of categories) {
@@ -83,7 +85,7 @@ function ArticlesPage() {
 
   return (
     <>
-      <Title title="Homepage" />
+      <Title title={t('Homepage')} />
       <div className="App">
         <Link to="/article">Create new article</Link>
         <Container>
