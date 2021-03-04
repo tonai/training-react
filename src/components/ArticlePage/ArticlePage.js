@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
+import categoriescontext from "../../contexts/categories";
+
 import useArticle from "../../hooks/useArticle";
-import useCategories from "../../hooks/useCategories";
 
 import { createArticles, editArticles } from "../../services/articles";
 
@@ -10,8 +12,8 @@ import Title from "../Title/Title";
 function ArticlePage(props) {
   const id = props.match.params.id;
   const history = useHistory();
-  const categories = useCategories();
   const [article, setArticle] = useArticle(id);
+  const categories = useContext(categoriescontext);
 
   function handleChange(event) {
     // const clone = {...article};

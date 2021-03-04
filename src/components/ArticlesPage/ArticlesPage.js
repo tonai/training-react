@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
+import categoriescontext from "../../contexts/categories";
+
 import useArticles from "../../hooks/useArticles";
-import useCategories from "../../hooks/useCategories";
 
 import { deleteArticle, getArticles } from "../../services/articles";
 
@@ -18,7 +19,7 @@ function ArticlesPage() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [articles, setArticles] = useArticles();
-  const categories = useCategories();
+  const categories = useContext(categoriescontext);
 
   const categoriesMap = new Map();
   for (let category of categories) {
@@ -81,24 +82,25 @@ function ArticlesPage() {
   ));
 
   return (
-    <div className="App">
+    <>
       <Title title="Homepage" />
-      <Link to="/article">Create new article</Link>
-      <Container>
-        <Filters
-          categories={categories}
-          category={category}
-          title={title}
-          setCategory={setCategory}
-          setTitle={setTitle}
-        />
-        {list}
-      </Container>
-      <Container>
-        <button onClick={increment}>{counter}</button>
-      </Container>
-      <Container>{counter % 2 === 0 && <Resize />}</Container>
-    </div>
+      <div className="App">
+        <Link to="/article">Create new article</Link>
+        <Container>
+          <Filters
+            category={category}
+            title={title}
+            setCategory={setCategory}
+            setTitle={setTitle}
+          />
+          {list}
+        </Container>
+        <Container>
+          <button onClick={increment}>{counter}</button>
+        </Container>
+        <Container>{counter % 2 === 0 && <Resize />}</Container>
+      </div>
+    </>
   );
 }
 

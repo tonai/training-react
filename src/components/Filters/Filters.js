@@ -1,5 +1,10 @@
+import { useContext } from "react";
+
+import categoriescontext from "../../contexts/categories";
+
 function Filters(props) {
-  const { categories, category, title, setCategory, setTitle } = props;
+  const { category, title, setCategory, setTitle } = props;
+  const categories = useContext(categoriescontext);
 
   function handleTitleChange(event) {
     setTitle(event.target.value);
