@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import categoriescontext from "../../contexts/categories";
 import i18ncontext from "../../contexts/i18n";
 
 import useArticles from "../../hooks/useArticles";
+import useDebug from "../../hooks/useDebug";
 
 import { deleteArticle, getArticles } from "../../services/articles";
 
+import AlertDialog from "../AlertDialog/AlertDialog";
 import Article from "../Article/Article";
 import Container from "../Container/Container";
 import Filters from "../Filters/Filters";
@@ -22,6 +24,17 @@ function ArticlesPage() {
   const [articles, setArticles] = useArticles();
   const categories = useContext(categoriescontext);
   const { t } = useContext(i18ncontext);
+  const [open, setOpen] = useState(false);
+  const articleId = useRef();
+
+  console.log(useDebug({
+    counter,
+    selectedArticles,
+    title,
+    category,
+    articles,
+    categories
+  }));
 
   const categoriesMap = new Map();
   for (let category of categories) {
@@ -59,10 +72,25 @@ function ArticlesPage() {
     //   .then(() => setArticles(articles.filter(article => article.id !== id)));
 
     // 3
-    setArticles(articles.filter((article) => article.id !== id));
-    deleteArticle(id).catch(() =>
+    // setArticles(articles.filter((article) => article.id !== id));
+    // deleteArticle(id).catch(() =>
+    //   getArticles().then((articles) => setArticles(articles))
+    // );
+
+    articleId.current = id;
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function handleConfirm() {
+    setArticles(articles.filter((article) => article.id !== articleId.current));
+    deleteArticle(articleId.current).catch(() =>
       getArticles().then((articles) => setArticles(articles))
     );
+    setOpen(false);
   }
 
   const filteredArticles = articles
@@ -102,6 +130,11 @@ function ArticlesPage() {
         </Container>
         <Container>{counter % 2 === 0 && <Resize />}</Container>
       </div>
+      <AlertDialog
+        open={open}
+        handleClose={handleClose}
+        handleConfirm={handleConfirm}
+      />
     </>
   );
 }
