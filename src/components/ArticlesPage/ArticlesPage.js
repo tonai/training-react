@@ -21,7 +21,7 @@ function ArticlesPage() {
   const [category, setCategory] = useState("");
   const [articles, setArticles] = useArticles();
   const categories = useContext(categoriescontext);
-  const t = useContext(i18ncontext);
+  const { t } = useContext(i18ncontext);
 
   const categoriesMap = new Map();
   for (let category of categories) {

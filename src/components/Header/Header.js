@@ -1,11 +1,14 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+
+import i18nContext from "../../contexts/i18n";
 
 import logo from "../../logo.svg";
 
 import "./Header.css"
 
-function Header(props) {
-  const { language, setLanguage } = props;
+function Header() {
+  const { language, setLanguage } = useContext(i18nContext);
 
   function handleChange(event) {
     setLanguage(event.target.value)
