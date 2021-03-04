@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import i18nContext from "../../contexts/i18n";
@@ -45,4 +45,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);

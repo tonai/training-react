@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import i18nContext from "../../contexts/i18n";
 
@@ -9,7 +9,7 @@ function I18n(props) {
   const { children } = props;
   const [language, setLanguage] = useState('en');
 
-  function t(string) {
+  const t = useCallback((string) => {
     switch(language) {
       case 'fr':
         return fr[string];
@@ -20,13 +20,13 @@ function I18n(props) {
       default:
         return string;
     }
-  }
+  }, [language]);
 
-  const i18n = {
-    t: t,
-    language: language,
-    setLanguage: setLanguage
-  };
+  const i18n = useMemo(() => ({
+    t,
+    language,
+    setLanguage
+  }), [t, language, setLanguage]);
 
   return (
     <i18nContext.Provider value={i18n}>

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import categoriescontext from "../../contexts/categories";
@@ -83,11 +83,15 @@ function ArticlesPage() {
     setOpen(false);
   }
 
-  const filteredArticles = articles
-    .filter((article) => article.title.includes(title))
-    .filter(
-      (article) => category === "" || article.category === Number(category)
-    );
+  const filteredArticles = useMemo(
+    () =>
+      articles
+        .filter((article) => article.title.includes(title))
+        .filter(
+          (article) => category === "" || article.category === Number(category)
+        ),
+    [articles, title, category]
+  );
 
   const list = filteredArticles.map((article, i) => (
     <Article
@@ -103,7 +107,7 @@ function ArticlesPage() {
 
   return (
     <>
-      <Title title={t('Homepage')} />
+      <Title title={t("Homepage")} />
       <div className="App">
         <Link to="/article">Create new article</Link>
         <Container>
