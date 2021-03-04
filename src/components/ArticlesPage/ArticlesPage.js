@@ -5,7 +5,6 @@ import categoriescontext from "../../contexts/categories";
 import i18ncontext from "../../contexts/i18n";
 
 import useArticles from "../../hooks/useArticles";
-import useDebug from "../../hooks/useDebug";
 
 import { deleteArticle, getArticles } from "../../services/articles";
 
@@ -26,15 +25,6 @@ function ArticlesPage() {
   const { t } = useContext(i18ncontext);
   const [open, setOpen] = useState(false);
   const articleId = useRef();
-
-  console.log(useDebug({
-    counter,
-    selectedArticles,
-    title,
-    category,
-    articles,
-    categories
-  }));
 
   const categoriesMap = new Map();
   for (let category of categories) {
