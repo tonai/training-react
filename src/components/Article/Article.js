@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
 import "./Article.css";
 
 function Article(props) {
-  const { article, categoriesMap, handleDeleteArticle, index, selected, toggleArticle } = props;
-  const { id, title, category: categoryId, published } = article;
+  const { article, categoriesMap, handleDeleteArticle, index, toggleArticle } = props;
+  const { id, title, category: categoryId, published, selected } = article;
 
   function handleClick() {
     toggleArticle(index);
@@ -36,4 +36,4 @@ function Article(props) {
   );
 }
 
-export default Article;
+export default memo(Article);

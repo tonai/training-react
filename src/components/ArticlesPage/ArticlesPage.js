@@ -1,4 +1,4 @@
-import { useContext, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import categoriescontext from "../../contexts/categories";
@@ -11,13 +11,12 @@ import { deleteArticle, getArticles } from "../../services/articles";
 import AlertDialog from "../AlertDialog/AlertDialog";
 import Article from "../Article/Article";
 import Container from "../Container/Container";
+import Counter from "../Counter/Counter";
 import Filters from "../Filters/Filters";
 import Resize from "../Resize/Resize";
 import Title from "../Title/Title";
 
 function ArticlesPage() {
-  const [counter, setCounter] = useState(0);
-  const [selectedArticles, setSelectedArticles] = useState([]);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [articles, setArticles] = useArticles();
@@ -26,50 +25,18 @@ function ArticlesPage() {
   const [open, setOpen] = useState(false);
   const articleId = useRef();
 
-  const categoriesMap = new Map();
-  for (let category of categories) {
-    categoriesMap.set(category.id, category);
-  }
+  const categoriesMap = useMemo(() => {
+    const map = new Map();
+    for (let category of categories) {
+      map.set(category.id, category);
+    }
+    return map;
+  }, [categories]);
 
-  function increment() {
-    setCounter((prevState) => prevState + 1);
-  }
-
-  function toggleArticle(index) {
-    // Avec map
-    // setSelectedArticles(prevState => {
-    //   return prevState.map((state, i) => {
-    //     return index === i ? !state : state;
-    //   });
-    // });
-
-    // Avec clone
-    setSelectedArticles((prevState) => {
-      const clone = [...prevState];
-      clone[index] = !clone[index];
-      return clone;
-    });
-  }
-
-  function handleDeleteArticle(id) {
-    // 1
-    // deleteArticle(id)
-    //   .then(() => getArticles())
-    //   .then(articles => setArticles(articles));
-
-    // 2
-    // deleteArticle(id)
-    //   .then(() => setArticles(articles.filter(article => article.id !== id)));
-
-    // 3
-    // setArticles(articles.filter((article) => article.id !== id));
-    // deleteArticle(id).catch(() =>
-    //   getArticles().then((articles) => setArticles(articles))
-    // );
-
+  const handleDeleteArticle = useCallback((id) => {
     articleId.current = id;
     setOpen(true);
-  }
+  }, []);
 
   function handleClose() {
     setOpen(false);
@@ -93,6 +60,17 @@ function ArticlesPage() {
     [articles, title, category]
   );
 
+  const toggleArticle = useCallback((index) => {
+    setArticles(prevState => {
+      const clone = [...prevState];
+      clone[index] = {
+        ...clone[index],
+        selected: !clone[index].selected
+      };
+      return clone;
+    });
+  }, [setArticles]);
+
   const list = filteredArticles.map((article, i) => (
     <Article
       article={article}
@@ -100,7 +78,6 @@ function ArticlesPage() {
       handleDeleteArticle={handleDeleteArticle}
       index={i}
       key={article.id}
-      selected={selectedArticles[i]}
       toggleArticle={toggleArticle}
     />
   ));
@@ -120,9 +97,11 @@ function ArticlesPage() {
           {list}
         </Container>
         <Container>
-          <button onClick={increment}>{counter}</button>
+          <Counter/>
         </Container>
-        <Container>{counter % 2 === 0 && <Resize />}</Container>
+        <Container>
+          <Resize />
+        </Container>
       </div>
       <AlertDialog
         open={open}
